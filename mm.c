@@ -1,48 +1,4 @@
-/*
- * CSE 351 Lab 5 (Dynamic Storage Allocator)
- *
- * Name(s): Marie P.
- * NetID(s): mpetrb
- *
- * NOTES:
- *  - Explicit allocator with an explicit free-list
- *  - Free-list uses a single, doubly-linked list with LIFO insertion policy,
- *    first-fit search strategy, and immediate coalescing.
- *  - We use "next" and "previous" to refer to blocks as ordered in the free-list.
- *  - We use "following" and "preceding" to refer to adjacent blocks in memory.
- *  - Pointers in the free-list will point to the beginning of a heap block
- *    (i.e., to the header).
- *  - Pointers returned by mm_malloc point to the beginning of the payload
- *    (i.e., to the word after the header).
- *
- * ALLOCATOR BLOCKS:
- *  - See definition of block_info struct fields further down
- *  - USED: +---------------+   FREE: +---------------+
- *          |    header     |         |    header     |
- *          |(size_and_tags)|         |(size_and_tags)|
- *          +---------------+         +---------------+
- *          |  payload and  |         |   next ptr    |
- *          |    padding    |         +---------------+
- *          |       .       |         |   prev ptr    |
- *          |       .       |         +---------------+
- *          |       .       |         |  free space   |
- *          |               |         |  and padding  |
- *          |               |         |      ...      |
- *          |               |         +---------------+
- *          |               |         |    footer     |
- *          |               |         |(size_and_tags)|
- *          +---------------+         +---------------+
- *
- * BOUNDARY TAGS:
- *  - Headers and footers for a heap block store identical information.
- *  - The block size is stored as a word, but because of alignment, we can use
- *    some number of the least significant bits as tags/flags.
- *  - TAG_USED is bit 0 (the 1's digit) and indicates if this heap block is
- *    used/allocated.
- *  - TAG_PRECEDING_USED is bit 1 (the 2's digit) and indicates if the
- *    preceding heap block is used/allocated. Used for coalescing and avoids
- *    the need for a footer in used/allocated blocks.
- */
+
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -429,10 +385,4 @@ void mm_free(void* ptr) {
 }
 
 
-/*
- * A heap consistency checker. Optional, but recommended to help you debug
- * potential issues with your allocator.
- */
-int mm_check() {
-  return 0;
-}
+
